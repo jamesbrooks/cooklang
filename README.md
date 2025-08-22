@@ -1,5 +1,9 @@
 # Cooklang
 
+[![Test](https://github.com/jamesbrooks/cooklang/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/jamesbrooks/cooklang/actions/workflows/test.yml)
+![Gem Version](https://img.shields.io/gem/v/cooklang)
+
+
 A Ruby parser for the [Cooklang](https://cooklang.org) recipe markup language.
 
 ## Installation
@@ -26,7 +30,7 @@ recipe_text = <<~RECIPE
   >> servings: 4
 
   Crack @eggs{3} into a bowl, add @flour{125%g} and @milk{250%ml}.
-  
+
   Heat #frying pan over medium heat for ~{5%minutes}.
   Pour batter and cook until golden.
 RECIPE
@@ -41,7 +45,7 @@ recipe.metadata['servings']     # => 4
 recipe.ingredients.each do |ingredient|
   puts "#{ingredient.name}: #{ingredient.quantity} #{ingredient.unit}"
 end
-# => eggs: 3 
+# => eggs: 3
 # => flour: 125 g
 # => milk: 250 ml
 
@@ -68,7 +72,7 @@ puts formatter.to_s
 # Recipe object
 recipe.metadata         # Hash of metadata
 recipe.ingredients      # Array of Ingredient objects
-recipe.cookware         # Array of Cookware objects  
+recipe.cookware         # Array of Cookware objects
 recipe.timers           # Array of Timer objects
 recipe.steps            # Array of Step objects
 recipe.steps_text       # Array of plain text steps
@@ -103,7 +107,7 @@ timer.unit            # "minutes"
 # Install dependencies
 bundle install
 
-# Run tests  
+# Run tests
 bundle exec rspec
 
 # Run linter
