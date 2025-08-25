@@ -1,8 +1,9 @@
 # Cooklang
 
-[![Test](https://github.com/jamesbrooks/cooklang/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/jamesbrooks/cooklang/actions/workflows/test.yml)
 ![Gem Version](https://img.shields.io/gem/v/cooklang)
-
+[![Test](https://github.com/jamesbrooks/cooklang/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/jamesbrooks/cooklang/actions/workflows/test.yml)
+[![Maintainability](https://qlty.sh/gh/jamesbrooks/projects/cooklang/maintainability.svg)](https://qlty.sh/gh/jamesbrooks/projects/cooklang)
+[![Code Coverage](https://qlty.sh/gh/jamesbrooks/projects/cooklang/coverage.svg)](https://qlty.sh/gh/jamesbrooks/projects/cooklang)
 
 A Ruby parser for the [Cooklang](https://cooklang.org) recipe markup language.
 
