@@ -104,8 +104,8 @@ RSpec.describe "Comprehensive Cooklang Implementation" do
       end
 
       it "strips block comments with [- -]" do
-        recipe = parser.parse("Add @milk{4%cup} [- TODO change -], mix")
-        expect(recipe.steps_text.join).not_to include("TODO")
+        recipe = parser.parse("Add @milk{4%cup} [- my comment -], mix")
+        expect(recipe.steps_text.join).not_to include("my comment")
         expect(recipe.steps_text.join).to include("mix")
       end
     end
