@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "spec_helper"
+
 RSpec.describe Cooklang do
   it "has a version number" do
     expect(Cooklang::VERSION).not_to be nil
