@@ -352,5 +352,47 @@ RSpec.describe Cooklang::Parser do
         expect(step.segments).to include(an_instance_of(Cooklang::Timer))
       end
     end
+
+    context "with edge cases" do
+      it "handles timer with invalid duration format" do
+        input = "Cook ~{invalid_duration}"
+        recipe = parser.parse(input)
+
+        expect(recipe.timers.size).to eq(1)
+        timer = recipe.timers.first
+        expect(timer.duration).to eq("invalid_duration")
+        expect(timer.unit).to be_nil
+      end
+
+      it "handles timer with number-only duration" do
+        input = "Cook ~{30}"
+        recipe = parser.parse(input)
+
+        expect(recipe.timers.size).to eq(1)
+        timer = recipe.timers.first
+        expect(timer.duration).to eq(30)
+        expect(timer.unit).to be_nil
+      end
+
+      it "handles timer with decimal duration" do
+        input = "Cook ~{2.5}"
+        recipe = parser.parse(input)
+
+        expect(recipe.timers.size).to eq(1)
+        timer = recipe.timers.first
+        expect(timer.duration).to eq(2.5)
+        expect(timer.unit).to be_nil
+      end
+
+      it "handles ingredient with invalid quantity format" do
+        input = "Add @salt{invalid_amount}"
+        recipe = parser.parse(input)
+
+        expect(recipe.ingredients.size).to eq(1)
+        ingredient = recipe.ingredients.first
+        expect(ingredient.quantity).to eq("invalid_amount")
+        expect(ingredient.unit).to be_nil
+      end
+    end
   end
 end

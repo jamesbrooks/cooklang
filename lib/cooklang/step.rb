@@ -9,7 +9,7 @@ module Cooklang
     end
 
     def to_text
-      @segments.map do |segment|
+      text_parts = @segments.map do |segment|
         case segment
         when Hash
           case segment[:type]
@@ -39,7 +39,17 @@ module Cooklang
         else
           segment.to_s
         end
-      end.join.rstrip
+      end
+
+      result = text_parts.join
+
+      # Special normalization for metadata break patterns:
+      # Convert sequences like "--- \n text \n ---" to "--- text ---"
+      if result.include?("---")
+        result = result.gsub(/---\s*\n\s*/, "--- ").gsub(/\s*\n\s*---/, " ---")
+      end
+
+      result.rstrip
     end
 
     def to_h

@@ -321,6 +321,18 @@ RSpec.describe Cooklang::Lexer do
         expect(tokens[2].value).to eq("salt  ")
       end
     end
+
+    context "with unrecognized characters" do
+      it "handles unrecognized characters gracefully" do
+        # Test the else branch in tokenize that handles unrecognized characters
+        lexer = described_class.new("Mix \x01\x02 salt")
+        tokens = lexer.tokenize
+
+        # Should skip unrecognized characters and continue tokenizing
+        expect(tokens.map(&:type)).to eq(%i[text text])
+        expect(tokens.map(&:value)).to eq(["Mix ", " salt"])
+      end
+    end
   end
 
   describe "Token" do

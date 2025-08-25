@@ -4,15 +4,22 @@ module Cooklang
   class Recipe
     attr_reader :ingredients, :cookware, :timers, :steps, :metadata, :sections, :notes
 
-    def initialize(ingredients:, cookware:, timers:, steps:, metadata:, sections: [], notes: [])
-      @ingredients = ingredients.freeze
-      @cookware = cookware.freeze
-      @timers = timers.freeze
-      @steps = steps.freeze
-      @metadata = metadata
-      @sections = sections.freeze
-      @notes = notes.freeze
+    def initialize(**components)
+      @ingredients = freeze_component(components[:ingredients])
+      @cookware = freeze_component(components[:cookware])
+      @timers = freeze_component(components[:timers])
+      @steps = freeze_component(components[:steps])
+      @metadata = components[:metadata] || Metadata.new
+      @sections = freeze_component(components[:sections])
+      @notes = freeze_component(components[:notes])
     end
+
+    private
+      def freeze_component(value)
+        (value || []).freeze
+      end
+
+    public
 
     def ingredients_hash
       @ingredients.each_with_object({}) do |ingredient, hash|
@@ -42,14 +49,17 @@ module Cooklang
     def ==(other)
       return false unless other.is_a?(Recipe)
 
-      ingredients == other.ingredients &&
-        cookware == other.cookware &&
-        timers == other.timers &&
-        steps == other.steps &&
-        metadata == other.metadata &&
-        sections == other.sections &&
-        notes == other.notes
+      comparable_attributes.all? do |attr|
+        send(attr) == other.send(attr)
+      end
     end
+
+    private
+      def comparable_attributes
+        %i[ingredients cookware timers steps metadata sections notes]
+      end
+
+    public
 
     def eql?(other)
       self == other

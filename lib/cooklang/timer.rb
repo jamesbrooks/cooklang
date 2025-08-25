@@ -7,7 +7,7 @@ module Cooklang
     def initialize(duration:, unit:, name: nil)
       @name = name&.to_s&.freeze
       @duration = duration
-      @unit = unit.to_s.freeze
+      @unit = unit&.to_s&.freeze
     end
 
     def to_s
@@ -42,6 +42,8 @@ module Cooklang
     end
 
     def total_seconds
+      return @duration unless @unit
+
       case @unit.downcase
       when "second", "seconds", "sec", "s"
         @duration

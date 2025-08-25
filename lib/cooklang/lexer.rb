@@ -42,27 +42,17 @@ module Cooklang
 
       until @scanner.eos?
         if match_yaml_delimiter
-          # Handle YAML front matter
         elsif match_comment_block
-          # Handle block comments
         elsif match_comment_line
-          # Handle line comments
         elsif match_metadata_marker
-          # Handle >> metadata
         elsif match_section_marker
-          # Handle = section markers
         elsif match_note_marker
-          # Handle > note markers (only if not part of >>)
         elsif match_special_chars
-          # Handle single character tokens
         elsif match_newline
-          # Handle newlines
         elsif match_text
-          # Handle plain text
         elsif match_hyphen
-          # Handle single hyphens that aren't part of comments
         else
-          # Skip unrecognized characters
+          # Skip unrecognized character
           advance_position(@scanner.getch)
         end
       end
@@ -258,14 +248,15 @@ module Cooklang
       end
 
       def match_text
-        # Match any text that's not a special character, including spaces and tabs
+        # Match any printable text that's not a special character, including spaces and tabs
         # Exclude [ and ] to allow block comment detection
         # Exclude = and > to allow section and note markers
-        if @scanner.check(/[^@#~{}()%\n\-\[\]=>]+/)
+        # Include tabs explicitly along with printable characters
+        if @scanner.check(/[\t[:print:]&&[^@#~{}()%\n\-\[\]=>]]+/)
           position = current_position
           line = current_line
           column = current_column
-          text = @scanner.scan(/[^@#~{}()%\n\-\[\]=>]+/)
+          text = @scanner.scan(/[\t[:print:]&&[^@#~{}()%\n\-\[\]=>]]+/)
           @tokens << Token.new(:text, text, position, line, column)
           advance_position(text)
           true
